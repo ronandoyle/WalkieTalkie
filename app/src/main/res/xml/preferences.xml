@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+        <PreferenceCategory
+                android:title="IP">
+        <EditTextPreference
+                android:name="EditText Preference IP"
+                android:summary="IP address of Audio server"
+                android:defaultValue=""
+                android:title="Audio IP Address"
+                android:key="ipAddress" />
+        </PreferenceCategory>
+        <PreferenceCategory
+                android:title="Port">
+        <EditTextPreference
+                android:name="EditText Preference Port"
+                android:summary="Port of Audio server"
+                android:defaultValue="8080"
+                android:title="Audio Port"
+                android:key="port" />
+        </PreferenceCategory>
+</PreferenceScreen>
