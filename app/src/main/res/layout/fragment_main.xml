@@ -20,4 +20,12 @@
         android:layout_toEndOf="@+id/talk_button"
         android:text="Stop"/>
 
+    <Button
+        android:id="@+id/listen_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Listen"
+        android:layout_below="@+id/talk_button"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>

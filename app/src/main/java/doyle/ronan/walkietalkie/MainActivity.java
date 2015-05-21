@@ -1,7 +1,6 @@
 package doyle.ronan.walkietalkie;
 
 import android.app.Activity;
-import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -12,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.os.Build;
 import android.widget.Button;
 
 import doyle.ronan.walkietalkie.settings.Preferences;
@@ -70,7 +68,9 @@ public class MainActivity extends Activity {
         private SendMic mSendMic;
         private Button mTalkButton;
         private Button mStopButton;
-        private Thread mStreamAudio;
+        private Button mListenButton;
+        private Thread mStreamOutAudio;
+        private Thread mStreamInAudio;
 
         public PlaceholderFragment() {
         }
@@ -91,7 +91,7 @@ public class MainActivity extends Activity {
         @Override
         public void onPause() {
             super.onPause();
-            mStreamAudio = null;
+            mStreamOutAudio = null;
         }
 
         private void setupButton() {
@@ -100,12 +100,13 @@ public class MainActivity extends Activity {
             }
             mTalkButton = (Button) getView().findViewById(R.id.talk_button);
             mStopButton = (Button) getView().findViewById(R.id.stop_button);
+            mListenButton = (Button) getView().findViewById(R.id.listen_button);
 
             mTalkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (mStreamAudio == null) {
-                        mStreamAudio = new Thread(new Runnable(){
+                    if (mStreamOutAudio == null) {
+                        mStreamOutAudio = new Thread(new Runnable(){
 
                             @Override
                             public void run() {
@@ -116,8 +117,8 @@ public class MainActivity extends Activity {
                     }
 
 
-                    if (!mStreamAudio.isAlive()) {
-                        mStreamAudio.start();
+                    if (!mStreamOutAudio.isAlive()) {
+                        mStreamOutAudio.start();
                     }
                 }
             });
@@ -126,7 +127,23 @@ public class MainActivity extends Activity {
                 @Override
                 public void onClick(View v) {
                     mSendMic.stop();
-                    mStreamAudio = null;
+                    mStreamOutAudio = null;
+                }
+            });
+
+            mListenButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if (mStreamInAudio == null) {
+                        mStreamInAudio = new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Listen listen = new Listen();
+                                listen.playStream();
+                            }
+                        });
+                    }
                 }
             });
         }

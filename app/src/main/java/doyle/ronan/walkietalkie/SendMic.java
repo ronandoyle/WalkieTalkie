@@ -15,18 +15,18 @@ import android.util.Log;
 import doyle.ronan.walkietalkie.settings.Preferences;
 
 /**
- * This class is used to stream audio from the Android device to a Java Server on the Fit-PC3.
+ * This class is used to stream audio from the Android device to a Java Server.
  * 
  * @author Ronan Doyle
  * 
  */
-public class SendMic extends AsyncTask<Void, Integer, Void>{
+public class SendMic extends AsyncTask<Void, Integer, Void> {
 	
 	private int port=50005;
 	AudioRecord recorder;
 
 	private int sampleRate = 44100;
-	private int channelConfig = AudioFormat.CHANNEL_CONFIGURATION_MONO;
+	private int channelConfig = AudioFormat.CHANNEL_IN_MONO;
 	private int audioFormat = AudioFormat.ENCODING_PCM_16BIT;       
 	int minBufSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
 	private boolean status = true;
