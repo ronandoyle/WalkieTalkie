@@ -69,6 +69,7 @@ public class MainActivity extends Activity {
 
         private SendMic mSendMic;
         private Button mTalkButton;
+        private Button mStopButton;
         private Thread mStreamAudio;
 
         public PlaceholderFragment() {
@@ -90,9 +91,7 @@ public class MainActivity extends Activity {
         @Override
         public void onPause() {
             super.onPause();
-            if (mStreamAudio != null) {
-                mStreamAudio.stop();
-            }
+            mStreamAudio = null;
         }
 
         private void setupButton() {
@@ -100,20 +99,35 @@ public class MainActivity extends Activity {
                 return;
             }
             mTalkButton = (Button) getView().findViewById(R.id.talk_button);
+            mStopButton = (Button) getView().findViewById(R.id.stop_button);
+
             mTalkButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                        mSendMic = new SendMic();
-
+                    if (mStreamAudio == null) {
                         mStreamAudio = new Thread(new Runnable(){
 
                             @Override
                             public void run() {
+                                mSendMic = new SendMic();
                                 mSendMic.start();
                             }
                         });
+                    }
+
+
+                    if (!mStreamAudio.isAlive()) {
                         mStreamAudio.start();
                     }
+                }
+            });
+
+            mStopButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mSendMic.stop();
+                    mStreamAudio = null;
+                }
             });
         }
     }

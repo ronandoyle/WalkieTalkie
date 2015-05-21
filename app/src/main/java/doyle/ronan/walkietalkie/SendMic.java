@@ -22,26 +22,17 @@ import doyle.ronan.walkietalkie.settings.Preferences;
  */
 public class SendMic extends AsyncTask<Void, Integer, Void>{
 	
-	public byte[] buffer;
-	public static DatagramSocket socket;
 	private int port=50005;
 	AudioRecord recorder;
 
 	private int sampleRate = 44100;
-	private int channelConfig = AudioFormat.CHANNEL_CONFIGURATION_MONO;    
+	private int channelConfig = AudioFormat.CHANNEL_CONFIGURATION_MONO;
 	private int audioFormat = AudioFormat.ENCODING_PCM_16BIT;       
 	int minBufSize = AudioRecord.getMinBufferSize(sampleRate, channelConfig, audioFormat);
 	private boolean status = true;
 
-	/**
-	 * Default constructor for the class. Sets the buffer size to 9728. This is the same size as the buffer
-	 * on the Java server. For optimal quality keep this value at 9728 and ensure the Server buffer size matches.
-	 */
 	public SendMic(){
-		
 		Log.i("BUFFERSIZE", "" + minBufSize);
-		
-		minBufSize += 2048;
 	}
 
 	/**
@@ -96,8 +87,7 @@ public class SendMic extends AsyncTask<Void, Integer, Void>{
 	              // Putting buffer in the packet
                     packet = new DatagramPacket (buffer,buffer.length,destination,port);
 
-	                while(status == true) {
-
+	                while(status) {
 	                    // Reading data from MIC into buffer
 	                    minBufSize = recorder.read(buffer, 0, buffer.length);
 

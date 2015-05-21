@@ -9,6 +9,15 @@
     <Button
         android:id="@+id/talk_button"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:text="Talk"/>
+
+    <Button
+        android:id="@+id/stop_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/talk_button"
+        android:text="Stop"/>
 
 </RelativeLayout>
